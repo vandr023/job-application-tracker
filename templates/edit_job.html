@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Edit Job</h2>
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        Update Job Information
+    </div>
+
+    <div class="card-body">
+        <form action="/jobs/update/{{ job.job_id }}" method="POST" class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">Job Title</label>
+                <input type="text" name="job_title" class="form-control"
+                       value="{{ job.job_title }}" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Company</label>
+                <select name="company_id" class="form-select">
+                    {% for c in companies %}
+                    <option value="{{ c.company_id }}"
+                        {% if c.company_id == job.company_id %}selected{% endif %}>
+                        {{ c.company_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Job Description</label>
+                <textarea name="job_description" class="form-control" rows="3">{{ job.job_description }}</textarea>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Salary Min</label>
+                <input type="number" name="salary_min" class="form-control"
+                       value="{{ job.salary_min }}">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Salary Max</label>
+                <input type="number" name="salary_max" class="form-control"
+                       value="{{ job.salary_max }}">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Job Type</label>
+                <select name="job_type" class="form-select">
+                    <option {% if job.job_type == "Full-time" %}selected{% endif %}>Full-time</option>
+                    <option {% if job.job_type == "Part-time" %}selected{% endif %}>Part-time</option>
+                    <option {% if job.job_type == "Contract" %}selected{% endif %}>Contract</option>
+                    <option {% if job.job_type == "Internship" %}selected{% endif %}>Internship</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Posting URL</label>
+                <input type="text" name="posting_url" class="form-control"
+                       value="{{ job.posting_url }}">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Date Posted</label>
+                <input type="date" name="date_posted" class="form-control"
+                       value="{{ job.date_posted }}">
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Required Skills (comma-separated)</label>
+                <input type="text" name="job_skills" class="form-control"
+                       value="{{ job.job_skills }}">
+            </div>
+
+            <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-success">Save Changes</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

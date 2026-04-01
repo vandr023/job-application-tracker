@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="text-center mb-4">Job Match</h2>
+<p class="lead text-center mb-4">
+    Enter your skills to find the best‑matching jobs.
+</p>
+
+<!-- Skill Input Form -->
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        Enter Your Skills
+    </div>
+
+    <div class="card-body">
+        <form action="/match" method="POST" class="row g-3">
+
+            <div class="col-md-12">
+                <label class="form-label">Skills (comma‑separated)</label>
+                <input 
+                    type="text" 
+                    name="skills" 
+                    class="form-control"
+                    placeholder="e.g., Python, SQL, Flask"
+                    value="{{ user_skills }}"
+                    required
+                >
+            </div>
+
+            <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-success w-100">Find Matches</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Results Section -->
+{% if results %}
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        Matching Jobs
+    </div>
+
+    <ul class="list-group list-group-flush">
+        {% for item in results %}
+        <li class="list-group-item">
+
+            <h5 class="mb-1">
+                {{ item.job_title }} — {{ item.company_name }}
+            </h5>
+
+            <!-- Match Percentage with Progress Bar -->
+            <p class="mb-1">
+                <strong>Match:</strong> {{ item.match_percent }}%
+            </p>
+
+            <div class="progress mb-3" style="height: 20px;">
+                <div 
+                    class="progress-bar bg-success" 
+                    role="progressbar" 
+                    style="width: {{ item.match_percent }}%;"</div>"
+                >
+                    {{ item.match_percent }}%
+                </div>
+            </div>
+
+            <!-- Matched Skills -->
+            <p class="mb-1">
+                <strong>Matched Skills:</strong>
+                {% if item.matched %}
+                    <span class="text-success fw-bold">
+                        {{ item.matched | join(", ") }}
+                    </span>
+                {% else %}
+                    <span class="text-danger">None</span>
+                {% endif %}
+            </p>
+
+            <!-- Missing Skills -->
+            <p class="mb-1">
+                <strong>Missing Skills:</strong>
+                {% if item.missing %}
+                    <span class="text-danger fw-bold">
+                        {{ item.missing | join(", ") }}
+                    </span>
+                {% else %}
+                    <span class="text-success">None</span>
+                {% endif %}
+            </p>
+
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% endblock %}

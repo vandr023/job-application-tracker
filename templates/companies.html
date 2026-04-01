@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Companies</h2>
+
+<!-- Add Company Form -->
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        Add a New Company
+    </div>
+    <div class="card-body">
+        <form action="/companies/add" method="POST" class="row g-3">
+
+            <div class="col-md-4">
+                <label class="form-label">Company Name</label>
+                <input type="text" name="company_name" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Industry</label>
+                <input type="text" name="industry" class="form-control">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Website</label>
+                <input type="text" name="website" class="form-control">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">City</label>
+                <input type="text" name="city" class="form-control">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">State</label>
+                <input type="text" name="state" class="form-control">
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Notes</label>
+                <textarea name="notes" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-success">Add Company</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Company List -->
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        All Companies
+    </div>
+
+    <ul class="list-group list-group-flush">
+
+        {% for c in companies %}
+        <li class="list-group-item">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+                    <h5 class="mb-1">{{ c.company_name }}</h5>
+
+                    <div class="text-muted small">
+                        <strong>Industry:</strong> {{ c.industry or "—" }}<br>
+                        <strong>Website:</strong> {{ c.website or "—" }}<br>
+                        <strong>Location:</strong> {{ c.city }}, {{ c.state }}<br>
+                        <strong>Notes:</strong> {{ c.notes or "—" }}<br>
+                        <strong>Added:</strong> {{ c.created_at }}
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <a href="/companies/edit/{{ c.company_id }}" class="btn btn-sm btn-primary mb-1">Edit</a>
+
+                    <form action="/companies/delete/{{ c.company_id }}" method="POST" class="d-inline">
+                        <button class="btn btn-sm btn-danger"
+                                onclick="return confirm('Delete this company?')">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </li>
+        {% endfor %}
+
+    </ul>
+</div>
+
+{% endblock %}

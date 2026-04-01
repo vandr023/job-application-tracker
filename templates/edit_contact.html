@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Edit Contact</h2>
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        Update Contact Information
+    </div>
+
+    <div class="card-body">
+        <form action="/contacts/update/{{ contact.contact_id }}" method="POST" class="row g-3">
+
+            <!-- Company -->
+            <div class="col-md-6">
+                <label class="form-label">Company</label>
+                <select name="company_id" class="form-select" required>
+                    {% for company in companies %}
+                    <option value="{{ company.company_id }}"
+                        {% if company.company_id == contact.company_id %}selected{% endif %}>
+                        {{ company.company_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- First Name -->
+            <div class="col-md-6">
+                <label class="form-label">First Name</label>
+                <input type="text" name="first_name" class="form-control"
+                       value="{{ contact.first_name }}" required>
+            </div>
+
+            <!-- Last Name -->
+            <div class="col-md-6">
+                <label class="form-label">Last Name</label>
+                <input type="text" name="last_name" class="form-control"
+                       value="{{ contact.last_name }}" required>
+            </div>
+
+            <!-- Job Title -->
+            <div class="col-md-6">
+                <label class="form-label">Job Title</label>
+                <input type="text" name="job_title" class="form-control"
+                       value="{{ contact.job_title }}">
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control"
+                       value="{{ contact.email }}">
+            </div>
+
+            <!-- Phone -->
+            <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input type="text" name="phone" class="form-control"
+                       value="{{ contact.phone }}">
+            </div>
+
+            <!-- LinkedIn -->
+            <div class="col-md-12">
+                <label class="form-label">LinkedIn URL</label>
+                <input type="url" name="linkedin_url" class="form-control"
+                       value="{{ contact.linkedin_url }}">
+            </div>
+
+            <!-- Notes -->
+            <div class="col-md-12">
+                <label class="form-label">Notes</label>
+                <textarea name="notes" class="form-control" rows="3">{{ contact.notes }}</textarea>
+            </div>
+
+            <!-- Save Button -->
+            <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-success">Save Changes</button>
+            </div>
+
+        </form>
+
+        <a href="/contacts" class="btn btn-secondary w-100 mt-3">Cancel</a>
+    </div>
+</div>
+
+{% endblock %}
+

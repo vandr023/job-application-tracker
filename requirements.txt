@@ -1,0 +1,8 @@
+Flask
+My entire backend runs on Flask — routing, templates, forms, CRUD operations.
+
+mysql-connector-python
+This is the library I used to connect Flask to my MySQL database.
+
+python-dotenv
+I used a .env file to store my database credentials securely and load them into my Flask app.

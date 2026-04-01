@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Edit Application</h2>
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        Update Application Information
+    </div>
+
+    <div class="card-body">
+        <form action="/applications/update/{{ application.application_id }}" method="POST" class="row g-3">
+
+            <!-- Job -->
+            <div class="col-md-6">
+                <label class="form-label">Job</label>
+                <select name="job_id" class="form-select" required>
+                    {% for j in jobs %}
+                    <option value="{{ j.job_id }}"
+                        {% if j.job_id == application.job_id %}selected{% endif %}>
+                        {{ j.job_title }} — {{ j.company_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Application Date -->
+            <div class="col-md-6">
+                <label class="form-label">Application Date</label>
+                <input type="date" name="application_date" class="form-control"
+                       value="{{ application.application_date }}" required>
+            </div>
+
+            <!-- Status -->
+            <div class="col-md-4">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option {% if application.status == "Applied" %}selected{% endif %}>Applied</option>
+                    <option {% if application.status == "Screening" %}selected{% endif %}>Screening</option>
+                    <option {% if application.status == "Interview" %}selected{% endif %}>Interview</option>
+                    <option {% if application.status == "Offer" %}selected{% endif %}>Offer</option>
+                    <option {% if application.status == "Rejected" %}selected{% endif %}>Rejected</option>
+                    <option {% if application.status == "Withdrawn" %}selected{% endif %}>Withdrawn</option>
+                </select>
+            </div>
+
+            <!-- Resume Version -->
+            <div class="col-md-4">
+                <label class="form-label">Resume Version</label>
+                <input type="text" name="resume_version" class="form-control"
+                       value="{{ application.resume_version }}">
+            </div>
+
+            <!-- Cover Letter Sent -->
+            <div class="col-md-4">
+                <label class="form-label">Cover Letter Sent?</label>
+                <select name="cover_letter_sent" class="form-select">
+                    <option value="1" {% if application.cover_letter_sent %}selected{% endif %}>Yes</option>
+                    <option value="0" {% if not application.cover_letter_sent %}selected{% endif %}>No</option>
+                </select>
+            </div>
+
+            <!-- Response Date -->
+            <div class="col-md-6">
+                <label class="form-label">Response Date</label>
+                <input type="date" name="response_date" class="form-control"
+                       value="{{ application.response_date }}">
+            </div>
+
+            <!-- Interview Date -->
+            <div class="col-md-6">
+                <label class="form-label">Interview Date</label>
+                <input type="datetime-local" name="interview_date" class="form-control"
+                       value="{{ application.interview_date }}">
+            </div>
+
+            <!-- Notes -->
+            <div class="col-md-12">
+                <label class="form-label">Notes</label>
+                <textarea name="notes" class="form-control" rows="3">{{ application.notes }}</textarea>
+            </div>
+
+            <!-- Save Button -->
+            <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-success">Save Changes</button>
+            </div>
+
+        </form>
+
+        <a href="/applications" class="btn btn-secondary w-100 mt-3">Cancel</a>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Applications</h2>
+
+<!-- Add Application Form -->
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        Add a New Application
+    </div>
+
+    <div class="card-body">
+        <form action="/applications/add" method="POST" class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">Job</label>
+                <select name="job_id" class="form-select" required>
+                    {% for j in jobs %}
+                    <option value="{{ j.job_id }}">{{ j.job_title }} — {{ j.company_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Application Date</label>
+                <input type="date" name="application_date" class="form-control" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option>Applied</option>
+                    <option>Screening</option>
+                    <option>Interview</option>
+                    <option>Offer</option>
+                    <option>Rejected</option>
+                    <option>Withdrawn</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Resume Version</label>
+                <input type="text" name="resume_version" class="form-control">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Cover Letter Sent?</label>
+                <select name="cover_letter_sent" class="form-select">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Response Date</label>
+                <input type="date" name="response_date" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Interview Date</label>
+                <input type="datetime-local" name="interview_date" class="form-control">
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Notes</label>
+                <textarea name="notes" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-success">Add Application</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Application List -->
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        All Applications
+    </div>
+
+    <ul class="list-group list-group-flush">
+        {% for a in applications %}
+        <li class="list-group-item">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+                    <h5>{{ a.job_title }} — {{ a.company_name }}</h5>
+                    <div class="text-muted small">
+                        <strong>Status:</strong> {{ a.status }}<br>
+                        <strong>Applied:</strong> {{ a.application_date }}<br>
+                        <strong>Resume:</strong> {{ a.resume_version or "—" }}<br>
+                        <strong>Cover Letter:</strong> {{ "Yes" if a.cover_letter_sent else "No" }}<br>
+                        <strong>Interview:</strong> {{ a.interview_date or "—" }}<br>
+                        <strong>Notes:</strong> {{ a.notes or "—" }}
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <a href="/applications/edit/{{ a.application_id }}" class="btn btn-sm btn-primary mb-1">Edit</a>
+                    <form action="/applications/delete/{{ a.application_id }}" method="POST">
+                        <button class="btn btn-sm btn-danger"
+                                onclick="return confirm('Delete this application?')">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

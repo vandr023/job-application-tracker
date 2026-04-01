@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Contacts</h2>
+
+<!-- Add Contact Form -->
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        Add a New Contact
+    </div>
+
+    <div class="card-body">
+        <form action="/contacts/add" method="POST" class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">Company</label>
+                <select name="company_id" class="form-select" required>
+                    {% for company in companies %}
+                    <option value="{{ company.company_id }}">
+                        {{ company.company_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">First Name</label>
+                <input type="text" name="first_name" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Last Name</label>
+                <input type="text" name="last_name" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Job Title</label>
+                <input type="text" name="job_title" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input type="text" name="phone" class="form-control">
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">LinkedIn URL</label>
+                <input type="url" name="linkedin_url" class="form-control">
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Notes</label>
+                <textarea name="notes" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="col-md-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-success">Add Contact</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Contacts List -->
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        All Contacts
+    </div>
+
+    <ul class="list-group list-group-flush">
+        {% for contact in contacts %}
+        <li class="list-group-item">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+                    <h5 class="mb-1">
+                        {{ contact.first_name }} {{ contact.last_name }}
+                    </h5>
+
+                    <div class="text-muted small">
+                        <strong>Company:</strong> {{ contact.company_name }}<br>
+                        <strong>Job Title:</strong> {{ contact.job_title or "—" }}<br>
+                        <strong>Email:</strong> {{ contact.email or "—" }}<br>
+                        <strong>Phone:</strong> {{ contact.phone or "—" }}<br>
+
+                        <strong>LinkedIn:</strong>
+                        {% if contact.linkedin_url %}
+                            <a href="{{ contact.linkedin_url }}" target="_blank">
+                                {{ contact.linkedin_url }}
+                            </a>
+                        {% else %}
+                            —
+                        {% endif %}
+                        <br>
+
+                        <strong>Notes:</strong> {{ contact.notes or "—" }}<br>
+                        <strong>Added:</strong> {{ contact.created_at }}
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <a href="/contacts/edit/{{ contact.contact_id }}" class="btn btn-sm btn-primary mb-1">
+                        Edit
+                    </a>
+
+                    <form action="/contacts/delete/{{ contact.contact_id }}" method="POST" class="d-inline">
+                        <button class="btn btn-sm btn-danger"
+                                onclick="return confirm('Delete this contact?')">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

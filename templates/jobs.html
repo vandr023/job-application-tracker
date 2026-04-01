@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Jobs</h2>
+
+<!-- Add Job Form -->
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        Add a New Job
+    </div>
+    <div class="card-body">
+        <form action="/jobs/add" method="POST" class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">Job Title</label>
+                <input type="text" name="job_title" class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Company</label>
+                <select name="company_id" class="form-select" required>
+                    {% for c in companies %}
+                    <option value="{{ c.company_id }}">{{ c.company_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Job Description</label>
+                <textarea name="job_description" class="form-control" rows="2"></textarea>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Salary Min</label>
+                <input type="number" name="salary_min" class="form-control">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Salary Max</label>
+                <input type="number" name="salary_max" class="form-control">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Job Type</label>
+                <select name="job_type" class="form-select">
+                    <option>Full-time</option>
+                    <option>Part-time</option>
+                    <option>Contract</option>
+                    <option>Internship</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Posting URL</label>
+                <input type="text" name="posting_url" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Date Posted</label>
+                <input type="date" name="date_posted" class="form-control">
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Required Skills (comma-separated)</label>
+                <input type="text" name="job_skills" class="form-control">
+            </div>
+
+            <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-success">Add Job</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Job List -->
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        All Jobs
+    </div>
+
+    <ul class="list-group list-group-flush">
+        {% for j in jobs %}
+        <li class="list-group-item">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+                    <h5>{{ j.job_title }}</h5>
+                    <div class="text-muted small">
+                        <strong>Company:</strong> {{ j.company_name }}<br>
+                        <strong>Type:</strong> {{ j.job_type }}<br>
+                        <strong>Salary:</strong> {{ j.salary_min }} - {{ j.salary_max }}<br>
+                        <strong>Skills:</strong> {{ j.job_skills or "—" }}<br>
+                        <strong>Posted:</strong> {{ j.date_posted }}
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <a href="/jobs/edit/{{ j.job_id }}" class="btn btn-sm btn-primary mb-1">Edit</a>
+                    <form action="/jobs/delete/{{ j.job_id }}" method="POST" class="d-inline">
+                        <button class="btn btn-sm btn-danger"
+                                onclick="return confirm('Delete this job?')">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
+

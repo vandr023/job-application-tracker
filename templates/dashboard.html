@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="text-center mb-4">Dashboard</h2>
+<p class="lead text-center mb-5">Overview of your job search activity</p>
+
+<div class="row g-4 justify-content-center">
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h5 class="card-title">Companies</h5>
+                <p class="display-5 fw-bold">{{ total_companies }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h5 class="card-title">Jobs</h5>
+                <p class="display-5 fw-bold">{{ total_jobs }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h5 class="card-title">Applications</h5>
+                <p class="display-5 fw-bold">{{ total_applications }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h5 class="card-title">Contacts</h5>
+                <p class="display-5 fw-bold">{{ total_contacts }}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="text-center mt-5">
+    <a href="/" class="btn btn-secondary">Back to Home</a>
+</div>
+
+{% endblock %}
