@@ -1,3 +1,6 @@
+Vincent Andrews
+PID# 6137862
+COP4751 RVC 1261
  README.md — Job Application Tracker
  Overview
 The Job Application Tracker is a full‑stack web application built with Flask, MySQL, and Bootstrap that helps users manage companies, jobs, contacts, and applications in one organized dashboard.
